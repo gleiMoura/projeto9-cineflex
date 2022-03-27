@@ -9,9 +9,6 @@ export default function Seats() {
     const { idSessao } = useParams();
     const movieInformation = session.movie;// taken from requestion
     const placeToSeat = session.seats; //taken from requestion
-    let listOfSeats = [];//used to keep the seat names
-    const [personcpf, setPersoncpf] = React.useState("");
-    const [personName, setPersonName] = React.useState("");
 
     React.useEffect(() => {
         const requestion = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
@@ -28,11 +25,12 @@ export default function Seats() {
     function LitleBall({ name, boolean }) {
         const [isSelected, setIsSelected] = React.useState(false);
         if (boolean === true) {
+            console.log(listOfSeats)
             function isTrueOrFalse() {
                 if (isSelected === false) {
-                    listOfSeats.push(name)
+                    listOfSeats.push(name);
                 } else {
-                    listOfSeats = listOfSeats.filter(element => element !== name ? element : '')
+                    listOfSeats = listOfSeats.filter(element => element !== name ? element : '');
                 }
             }
             return (
@@ -51,16 +49,64 @@ export default function Seats() {
         }
     }
 
+    function SendInformation() {
+        const [personcpf, setPersoncpf] = React.useState("");
+        const [personName, setPersonName] = React.useState("");
+
+        return (
+            <div className="form">
+                <label htmlFor="nome" className="label-nome">Nome do comprador</label>
+                <input type="text" id="nome" className="nome" placeholder="digite seu nome" onChange={(e) => {
+                    setPersonName(e.target.value);
+                }} />
+
+                <label htmlFor="cpf" className="label-cpf">cpf do comprador</label>
+                <input type="text" id="cpf" className="cpf" placeholder="digite seu cpf" onChange={(e) => {
+                    setPersoncpf(e.target.value);
+                }} />
+
+                <button onClick={() => {
+                    if (listOfSeats.length === 0) {
+                        alert("escolha uma assento!")
+                    }
+                    if (personName === "") {
+                        alert("digite seu nome!")
+                    }
+                    if (personcpf === "") {
+                        alert("digite seu cpf")
+                    }
+                    
+                    const requestion = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
+                        {
+                            ids: listOfSeats,
+                            name: personName,
+                            cpf: personcpf
+                        });
+                    requestion.then(answer => {
+                        console.log(answer.data)
+                    })
+                    requestion.catch(err => {
+                        console.error(err.data)
+                    })
+                }}>Reservar Assentos</button>
+            </div>
+        )
+
+    }
+
+    let listOfSeats = [];//used to keep the seat names
+
+
     if (session.length === 0 || session.length === null) {
         return (
             <div className="Session">
-                <header>
+                 <header>
                     CINEFLEX
                 </header>
-                <main>
+                <div className="loading">
                     <h1>Selecione o horário</h1>
-                </main>
-                <img className="loading" src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" />
+                    <img  src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" />
+                </div>
             </div>
         )
     }
@@ -92,30 +138,7 @@ export default function Seats() {
                         <p>indisponível</p>
                     </div>
                 </div>
-
-                <div className="form">
-                    <label htmlFor="nome" className="label-nome">Nome do comprador</label>
-                    <input type="text" id="nome" className="nome" placeholder="digite seu nome" onChange={(e) => {
-                        setPersonName(e.target.value);
-                    }} />
-
-                    <label htmlFor="cpf" className="label-cpf">cpf do comprador</label>
-                    <input type="text" id="cpf" className="cpf" placeholder="digite seu cpf" onChange={(e) => {
-                        setPersoncpf(e.target.value);
-                    }} />
-
-                    <button onClick={() => {
-                        if(listOfSeats.length ===0){
-                            alert("escolha uma assento!")
-                        }
-                        if(personName === ""){
-                            alert("digite seu nome!")
-                        }
-                        if(personcpf === ""){
-                            alert("digite seu cpf")
-                        }
-                    }}>Reservar Assentos</button>
-                </div>
+                <SendInformation />
             </main>
             <footer>
                 <div className="film">

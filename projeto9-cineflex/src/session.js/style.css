@@ -74,5 +74,8 @@
     font-size: 26px;
 }
 .Session .loading{
-    margin-left: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -87,7 +87,10 @@
     text-align: left;
 }
 .Seats .loading{
-    margin-left: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .Seats .subtitle{
     width: 370px;
