@@ -3,6 +3,7 @@ import "./reset.css"
 import { useParams } from "react-router-dom";
 import React from "react";
 import axios from "axios";
+import {Link} from "react-router-dom"
 
 export default function Session() {
 
@@ -53,7 +54,9 @@ export default function Session() {
                             <div className="hour">
                                 {element.showtimes.map(time => {
                                     return(
-                                    <h1>{time.name}</h1>
+                                        <Link to={`/assentos/${time.id}`}>
+                                            <h1>{time.name}</h1>
+                                        </Link>
                                     )
                                 })}
                             </div>
