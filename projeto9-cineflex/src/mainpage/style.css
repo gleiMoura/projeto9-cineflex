@@ -33,7 +33,10 @@
     width: 129px;
     height: 193px;
     margin: 27px 0;
-    background-color: #E8833A;
+    border-radius: 3px;
+    padding: 8px;
+    box-shadow: 0px 2px 4px 2px #00000051;
+    cursor: pointer;
 }
 .FirstPage .film img{
     width: 100%;

@@ -1,7 +1,8 @@
 import "./style.css";
-import React from "react"
-import axios from "axios"
-
+import "./reset.css";
+import React from "react";
+import axios from "axios";
+import { Link } from "react-router-dom"
 
 export default function FirstPage() {
     const [movie, setMovie] = React.useState([]);
@@ -11,7 +12,6 @@ export default function FirstPage() {
 
         request.then(answer => {
             setMovie(answer.data)
-            console.log(answer.data)
         });
 
         request.catch(err => {
@@ -19,10 +19,21 @@ export default function FirstPage() {
         })
     }, []);
 
-    if (movie.length === null) {
-        return "...carregando"
+    if (movie.length === null || movie.length === 0) {
+        return (
+            <div className="FirstPage">
+                <header>
+                    CINEFLEX
+                </header>
+                <main>
+                    <h1>...carregando</h1>
+                    <div className="films">
+                        <img src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" alt="carregamento" />
+                    </div>
+                </main>
+            </div>
+        )
     }
-
     return (
         <>
             <div className="FirstPage">
@@ -34,9 +45,11 @@ export default function FirstPage() {
                     <div className="films">
                         {movie.map(poster => {
                             return (
-                                <div className="film">
-                                    <img src={poster.posterURL} />
-                                </div>
+                                <Link to={`/sessoes/${poster.id}`}>
+                                    <div className="film">
+                                        <img src={poster.posterURL} alt="imagem do poster do filme" />
+                                    </div>
+                                </Link>
                             )
                         })}
                     </div>

@@ -1,9 +1,16 @@
-import FirstPage from "./mainpage"
+import FirstPage from "./mainpage";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Session from "./session.js";
 
 export default function App(){
     return(
         <>
-            <FirstPage />
+            <BrowserRouter>
+                <Routes>
+                    <Route path = "/" element={<FirstPage />}></Route>
+                    <Route path = "/sessoes/:idSessoes" element={<Session />}></Route>
+                </Routes>
+            </BrowserRouter>
         </>
     )
 }
