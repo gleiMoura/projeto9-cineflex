@@ -44,6 +44,7 @@
     margin: 2px;
     cursor: pointer;
     font-size: 12px;
+    color: #000;
 }
 .colorSelected{
     background-color: #8DD7CF;
@@ -88,5 +89,65 @@
 .Seats .loading{
     margin-left: 50%;
 }
+.Seats .subtitle{
+    width: 370px;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.Seats .subtitle .content-subtitle{
+    width: 68px;
+    height:60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Roboto';
+}
+.Seats .content-subtitle .ball{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+.Seats .form{
+    width: 370px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px;
+}
+.Seats .form .label-nome,.Seats .form .label-cpf{
+    font-size: 18px;
+    font-family: 'Roboto';
+    margin-top: 20px;
+}
+.Seats .form input{
+    width: 327px;
+    height: 50px;
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+    color: #AFAFAF;
+    font-family: 'Roboto';
+    font-style: italic;
+    margin-top: 20px;
+}
+.Seats .form .cpf{
+    margin-bottom: 70px;
+}
+.Seats .form button{
+    width: 225px;
+    height: 100px;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    font-size: 18px;
+    color: white;
+    background-color: #E8833A;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: none;
+}
+
 
 
