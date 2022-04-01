@@ -2,9 +2,9 @@ import "./style.css";
 import "./reset.css";
 import React from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-export default function Seats() {
+export default function Seats({setData}) {
     const [session, setSession] = React.useState([]);
     const { idSessao } = useParams();
     const movieInformation = session.movie;// taken from requestion
@@ -41,7 +41,7 @@ export default function Seats() {
         } else if (boolean === false) {
             return (
                 <div className="ball colorUnavailable" onClick={() => {
-                    alert("Você não pode escolher este a!")
+                    alert("Você não pode escolher este assento!")
                 }}>
                     <p>{name}</p>
                 </div>
@@ -52,7 +52,9 @@ export default function Seats() {
     function SendInformation() {
         const [personcpf, setPersoncpf] = React.useState("");
         const [personName, setPersonName] = React.useState("");
-
+        const booleanSeat = (listOfSeats.length === 0);
+        const booleanName = (personName === "");
+        const booleanCpf = (personcpf === "");
         return (
             <div className="form">
                 <label htmlFor="nome" className="label-nome">Nome do comprador</label>
@@ -65,33 +67,45 @@ export default function Seats() {
                     setPersoncpf(e.target.value);
                 }} />
 
-                <button onClick={() => {
-                    if (listOfSeats.length === 0) {
+                <button className={!booleanSeat && !booleanName && !booleanCpf ? "hide" : "okay"} onClick={() => {
+                    if (booleanSeat) {
                         alert("escolha uma assento!")
                     }
-                    if (personName === "") {
+                    if (booleanName) {
                         alert("digite seu nome!")
                     }
-                    if (personcpf === "") {
+                    if (booleanCpf) {
                         alert("digite seu cpf")
                     }
-                    
-                    const requestion = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
-                        {
-                            ids: listOfSeats,
-                            name: personName,
-                            cpf: personcpf
-                        });
-                    requestion.then(answer => {
-                        console.log(answer.data)
-                    })
-                    requestion.catch(err => {
-                        console.error(err.data)
-                    })
                 }}>Reservar Assentos</button>
-            </div>
-        )
 
+                <Link to={"/sucesso"} className={!booleanSeat && !booleanName && !booleanCpf ? "okay" : "hide"}>
+                    <button onClick={() => {
+                        const requestion = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
+                            {
+                                ids: listOfSeats,
+                                name: personName,
+                                cpf: personcpf
+                            });
+                        requestion.then(answer => {
+                            console.log(answer.data)
+                        })
+                        requestion.catch(err => {
+                            console.error(err.data)
+                        })
+
+                        setData({
+                            filmName: movieInformation.title, 
+                            date: session.day.weekday,
+                            hour: session.name,
+                            seats: listOfSeats,
+                            shopper: personName,
+                            cpf: personcpf})
+                    }}>Reservar Assentos </button>
+                </Link>
+            </div>
+
+        )
     }
 
     let listOfSeats = [];//used to keep the seat names
@@ -100,12 +114,12 @@ export default function Seats() {
     if (session.length === 0 || session.length === null) {
         return (
             <div className="Session">
-                 <header>
+                <header>
                     CINEFLEX
                 </header>
                 <div className="loading">
-                    <h1>Selecione o horário</h1>
-                    <img  src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" />
+                    <h1>carregando...</h1>
+                    <img src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" />
                 </div>
             </div>
         )
@@ -144,7 +158,7 @@ export default function Seats() {
                 <div className="film">
                     <img src={movieInformation.posterURL} alt="imagem do poster do filme" />
                 </div>
-                <h1>{movieInformation.title}<br /><br />{session.day.weekday}</h1>
+                <h1>{movieInformation.title}<br /><br />{session.day.weekday} - {session.name}</h1>
             </footer>
         </div>
     )

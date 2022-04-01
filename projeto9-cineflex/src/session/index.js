@@ -30,7 +30,7 @@ export default function Session() {
                     CINEFLEX
                 </header>
                 <div className="loading">
-                    <h1>Selecione o horário</h1>
+                    <h1>carregando...</h1>
                     <img  src="https://www.blogson.com.br/wp-content/uploads/2017/10/lg.progress-bar-preloader.gif" />
                 </div>
             </div>
@@ -54,7 +54,7 @@ export default function Session() {
                             <div className="hour">
                                 {element.showtimes.map(time => {
                                     return (
-                                        <Link to={`/assentos/${time.id}`}>
+                                        <Link className="thisTime" to={`/assentos/${time.id}`}>
                                             <h1>{time.name}</h1>
                                         </Link>
                                     )

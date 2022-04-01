@@ -44,6 +44,8 @@
     font-size: 18px;
     color: white;
     cursor: pointer;
+    text-decoration: none;
+    font-style: none;
 }
 .Session footer{
     width: 100%;
